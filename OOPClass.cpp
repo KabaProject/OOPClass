@@ -6,7 +6,7 @@
 using namespace std;
 
 struct character {
-	int key;
+	int key; //yup
 	int value;
 };
 
