@@ -1,101 +1,35 @@
 #include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
 
 using namespace std;
 
-struct character {
-	int key; //yup
-	int value;
+struct Date {
+    int day, month, year;
 };
 
-bool isSet(vector<character> vect, int key) {
+int main()
+{
 
-	if (vect.size() == 0) {
-		return false;
-	}
+    Date date;
+    cout << "Enter your birthday\n" << "Day: ";
+    cin >> date.day;
+    cout << "Month: ";
+    cin >> date.month;
+    cout << "Year: ";
+    cin >> date.year;
 
-	for (int i = 0; i < vect.size(); i++) {
-		if (vect[i].key == key) {
-			return true;
-		}
-	}
+    cout << "Your birthday is: " << date.day << "/" << date.month << "/" << date.year << endl;
 
-	return false;
-}
 
-void updateVectorMatches(vector<character>& vect, int key) {
-	for (int i = 0; i < vect.size(); i++) {
-		if (vect[i].key == key) {
-			vect[i].value += 1;
-		}
-	}
-}
+    Date date2;
+    cout << "\nEnter your graduation date\n" << "Day: ";
+    cin >> date2.day;
+    cout << "Month: ";
+    cin >> date2.month;
+    cout << "Year: ";
+    cin >> date2.year;
 
-bool compareCharacter(character a, character b) {
-	return (a.key < b.key);
-}
+    cout << "Your Graduation date is: " << date2.day << "/" << date2.month << date2.year << endl;
 
-void sortVector(vector<character>& vect) {
-
-	sort(vect.begin(), vect.end(), compareCharacter);
-}
-
-vector<character> getMatches(string text) {
-
-	vector<character> matches;
-
-	for (int i = 0; i < text.size(); i++) {
-
-		int key = int(text[i]);
-
-		if (!(65 <= key && key <= 90) && !(97 <= key && key <= 122)) {
-			continue;
-		}
-
-		if (!isSet(matches, key)) {
-			character ch = { key, 1 };
-			matches.push_back(ch);
-		}
-		else {
-			updateVectorMatches(matches, key);
-		}
-
-	}
-
-	sortVector(matches);
-
-	return matches;
-}
-
-int main() {
-
-	string text;
-	vector<character> matches;
-	char command;
-
-	do {
-		cout << "Ingresa el texto: ";
-		getline(cin, text);
-
-		matches = getMatches(text);
-
-		cout << "\nListado de coincidencias (letra => cantidad)\n";
-
-		for (int i = 0; i < matches.size(); i++) {
-			cout << "  " << char(matches[i].key) << " => " << matches[i].value << endl;
-		}
-
-		cout << "\n¿Quieres volver a hacerlo? (Y/N): ";
-		cin >> command;
-		cin.ignore();
-		system("CLS");
-
-	} while (command != 'N' && command != 'n');
-
-	cout << "Gracias por su preferencia!!\n";
-
-	return 0;
+    system("pause");
 }
 
