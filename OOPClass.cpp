@@ -1,107 +1,116 @@
 /*
-   Tarea-17-04-2021.cpp :
-   Declare a struct that represent a complex number (a+bi)
-   The program will display the sum of two complex numbers whose will been give it by the user
+    Practica 2:
+        - Generar un tipo de dato llamado tiempo, deberá tener dos campos: minutos y horas.
+        - El programa deberá mostrar la suma de dos tiempos dados por el usuario.
 */
 
 #include <iostream>
-#include <iomanip>
 #include <string>
 #include <regex>
 #include <sstream>
 
-struct complexNumber {
-    float a = 0, b = 0; // Complex number (a + bi) where a is the real part and b the imaginary part
+struct Time {
+    int hours, minutes;
 };
 
 /*
-    getComplex Function -> (complexNumber struct)
-    - Get a string with the complex number
-    - If exists, get the real value (a). Otherwise, set a = 0
-    - If exists, get the imaginary value (b) without "i". Othewise, set b = 0
-    - Return a complexNumber with the a and b values
+*   getTime Function -> (Time time)
+*       - Get a time in string
+*       - Get the hours: no more than 23 hrs or set 0
+*       - Get the minutes: if it's more or equal than 60, add 1 hour and rest 60 minutes
+*       - Return a Time with the hours and minutes
 */
-complexNumber getComplex(std::string complex) {
-    float a = 0, b = 0;
+Time getTime(std::string time) {
+    int hours, minutes;
     std::smatch m;
-    std::regex_search(complex, m, std::regex("(\\-)?[0-9\.]+(?=(\\+|\\-)?)(?!i)"));
-    if (m.size() != 0) { a = std::stof(m[0]); }
-    else { a = 0; }
-    std::regex_search(complex, m, std::regex("(\\-)?[0-9\.]+(?=i)"));
-    if (m.size() != 0) { b = std::stof(m[0]); }
-    else { b = 0; }
-
-    return complexNumber{ a, b };
-}
-
-/*
-    sumComplex Function -> (complexNumber)
-    - Get two complexNumber structs
-    - Sum the reals and imaginaries values
-    - Return a complexNumber with the new values
-*/
-complexNumber sumComplex(complexNumber num1, complexNumber num2) {
-    float a = 0, b = 0;
-    a = num1.a + num2.a;
-    b = num1.b + num2.b;
-
-    return complexNumber{ a, b };
-}
-
-/*
-    printResult Function -> (void)
-    - Format the output text
-    - Print the values with 2 decimals
-    - If the one of values is 0, don't will be added
-    - Print a formated text
-*/
-void printResult(complexNumber total) {
-    std::stringstream ss;
-    std::string prefix = "The result is: ";
-    if (total.a == 0 && total.b == 0) {
-        ss << prefix << 0;
-    }
-    else if (total.a == 0) {
-        ss << prefix;
-        ss << std::fixed << std::setprecision(2) << total.b;
-        ss << "i";
-    }
-    else if (total.b == 0) {
-        ss << prefix;
-        ss << std::fixed << std::setprecision(2) << total.a;
+    std::regex_search(time, m, std::regex("^[0-9]{1,2}"));
+    hours = std::stoi(m[0]) % 24;
+    std::regex_search(time, m, std::regex("[0-9]{1,2}$"));
+    if (std::stoi(m[0]) <= 60) {
+        minutes = std::stoi(m[0]);
     }
     else {
-        ss << prefix;
-        ss << std::fixed << std::setprecision(2) << total.a;
-        if (total.b >= 0) ss << "+";
-        ss << std::fixed << std::setprecision(2) << total.b;
-        ss << "i";
+        hours++;
+        minutes = std::stoi(m[0]) - 60;
+    }
+    return Time{ hours, minutes };
+}
+
+
+/*
+*   sumTime Function -> (Time time)
+*       - Get 2 Times
+*       - Sum the hours: get the module of 24
+*       - Sum the minutes: if it's more or equal to 60, add 1 hour and rest 60 minutes
+*       - Return a Time with the hours and minutes
+*/
+Time sumTime(Time a, Time b) {
+    int hours, minutes;
+    hours = (a.hours + b.hours) % 24;
+    minutes = a.minutes + b.minutes;
+
+    if (minutes >= 60) {
+        hours++;
+        minutes -= 60;
     }
 
-    std::cout << ss.str() << std::endl;
+    return Time{ hours, minutes };
+}
+
+/*
+*   timeStr Function -> (std::string string)
+*       - Get a Time
+*       - Format hours: if it's minus than 10, add the 1st zero
+*       - Format minutes: if it's mines than 10, add the 1st zero
+*       - Format time
+*       - Return a string with the time in hh:mm format
+*/
+std::string timeStr(Time time) {
+    std::stringstream ss;
+    std::string hours, minutes;
+
+    if (time.hours < 10) {
+        ss << "0" << time.hours;
+        hours = ss.str();
+        ss.str("");
+    }
+    else {
+        hours = std::to_string(time.hours);
+    }
+
+    if (time.minutes < 10) {
+        ss << "0" << time.minutes;
+        minutes = ss.str();
+        ss.str("");
+    }
+    else {
+        minutes = std::to_string(time.minutes);
+    }
+
+    ss << hours << ":" << minutes;
+
+    return ss.str();
 }
 
 int main()
 {
-    complexNumber num1, num2, total;
-    std::string complex;
+    Time timeA, timeB, timeC;
+    std::string time;
 
-    std::cout << "Enter the first number in the \"a+bi\" shape: ";
-    std::cin >> complex;
-    num1 = getComplex(complex); // Convert the string to a complexNumber struct
+    std::cout << "Ingresa la primera hora (hh:mm): ";
+    std::cin >> time;
+    timeA = getTime(time); // Converts string to Time struct
 
-    std::cout << "Enter the second number in the \"a+bi\" shape: ";
-    std::cin >> complex;
-    num2 = getComplex(complex);
+    std::cout << "Ingresa la segunda hora (hh:mm): ";
+    std::cin >> time;
+    timeB = getTime(time);
 
-    total = sumComplex(num1, num2); // Get the sum of two complexNumber structs
+    timeC = sumTime(timeA, timeB); // Sums 2 Times struct
 
-    printResult(total);
+    std::cout << "\nLa hora es " << timeStr(timeC) << std::endl; // Converts and Get a string from a Time struct
 
-    std::cout << "\nCreado por Mario Hdez (\\^o^/)\n";
+    std::cout << "\nUn programa de Mario Hdez (~^u^)~" << std::endl;
 
     system("pause");
-
-    return 0;
 }
 
