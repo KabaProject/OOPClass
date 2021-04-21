@@ -1,116 +1,95 @@
-/*
-    Practica 2:
-        - Generar un tipo de dato llamado tiempo, deberá tener dos campos: minutos y horas.
-        - El programa deberá mostrar la suma de dos tiempos dados por el usuario.
-*/
+// Class-19-04-21.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
 
 #include <iostream>
+#include <cstdlib>
+#include <time.h>
 #include <string>
-#include <regex>
-#include <sstream>
 
-struct Time {
-    int hours, minutes;
+struct Address {
+    std::string street;
+    int number;
 };
 
-/*
-*   getTime Function -> (Time time)
-*       - Get a time in string
-*       - Get the hours: no more than 23 hrs or set 0
-*       - Get the minutes: if it's more or equal than 60, add 1 hour and rest 60 minutes
-*       - Return a Time with the hours and minutes
-*/
-Time getTime(std::string time) {
-    int hours, minutes;
-    std::smatch m;
-    std::regex_search(time, m, std::regex("^[0-9]{1,2}"));
-    hours = std::stoi(m[0]) % 24;
-    std::regex_search(time, m, std::regex("[0-9]{1,2}$"));
-    if (std::stoi(m[0]) <= 60) {
-        minutes = std::stoi(m[0]);
-    }
-    else {
-        hours++;
-        minutes = std::stoi(m[0]) - 60;
-    }
-    return Time{ hours, minutes };
+struct Employee {
+    char name[10];
+    int age;
+    Address address;
+};
+
+Employee getEmployeeInput() {
+    Employee employee;
+
+    std::cout << "Ingresa el nombre: ";
+    std::cin >> employee.name;
+
+    std::cout << "Ingresa la edad: ";
+    std::cin >> employee.age;
+
+    std::cout << "Ingresa la direccion" << std::endl;
+    std::cout << "Calle: ";
+    std::cin >> employee.address.street;
+    std::cout << "Numero: ";
+    std::cin >> employee.address.number;
+
+    return employee;
 }
 
+float getAvgEmployeeAge(Employee employees[]) {
+    int arrLen = sizeof(*employees) / sizeof(employees[0]);
+    float avgAge = 0;
 
-/*
-*   sumTime Function -> (Time time)
-*       - Get 2 Times
-*       - Sum the hours: get the module of 24
-*       - Sum the minutes: if it's more or equal to 60, add 1 hour and rest 60 minutes
-*       - Return a Time with the hours and minutes
-*/
-Time sumTime(Time a, Time b) {
-    int hours, minutes;
-    hours = (a.hours + b.hours) % 24;
-    minutes = a.minutes + b.minutes;
-
-    if (minutes >= 60) {
-        hours++;
-        minutes -= 60;
+    for (int i = 0; i < arrLen; i++) {
+        avgAge += employees[i].age;
     }
 
-    return Time{ hours, minutes };
+    avgAge /= arrLen;
+    return avgAge;
 }
 
-/*
-*   timeStr Function -> (std::string string)
-*       - Get a Time
-*       - Format hours: if it's minus than 10, add the 1st zero
-*       - Format minutes: if it's mines than 10, add the 1st zero
-*       - Format time
-*       - Return a string with the time in hh:mm format
-*/
-std::string timeStr(Time time) {
-    std::stringstream ss;
-    std::string hours, minutes;
+void printOldestEmployee(Employee employees[]) {
+    int arrLen = sizeof(*employees) / sizeof(employees[0]);
+    Employee oldestEmployee{ "", 0, {"", 0} };
 
-    if (time.hours < 10) {
-        ss << "0" << time.hours;
-        hours = ss.str();
-        ss.str("");
-    }
-    else {
-        hours = std::to_string(time.hours);
+    for (int i = 0; i < arrLen; i++) {
+        if (oldestEmployee.age < employees[i].age) {
+            oldestEmployee = employees[i];
+        }
     }
 
-    if (time.minutes < 10) {
-        ss << "0" << time.minutes;
-        minutes = ss.str();
-        ss.str("");
-    }
-    else {
-        minutes = std::to_string(time.minutes);
-    }
-
-    ss << hours << ":" << minutes;
-
-    return ss.str();
+    std::cout << "El empleado mas viejo es " << oldestEmployee.name << " con " << oldestEmployee.age << " anios" << std::endl;
 }
+
+void printEmployeeData(Employee employee) {
+    std::cout << "Nombre:     " << employee.name << std::endl;
+}
+
 
 int main()
 {
-    Time timeA, timeB, timeC;
-    std::string time;
+    Employee employees[2];
+    float avgAge;
 
-    std::cout << "Ingresa la primera hora (hh:mm): ";
-    std::cin >> time;
-    timeA = getTime(time); // Converts string to Time struct
+    for (int i = 0; i < 2; i++) {
+        std::cout << "======= Empleado #" << i << " =======" << std::endl;
+        employees[i] = getEmployeeInput();
+        std::cout << std::endl;
+    }
 
-    std::cout << "Ingresa la segunda hora (hh:mm): ";
-    std::cin >> time;
-    timeB = getTime(time);
+    avgAge = getAvgEmployeeAge(employees);
+    std::cout << "La edad promedio es de " << avgAge << " anios" << std::endl;
 
-    timeC = sumTime(timeA, timeB); // Sums 2 Times struct
+    printOldestEmployee(employees);
 
-    std::cout << "\nLa hora es " << timeStr(timeC) << std::endl; // Converts and Get a string from a Time struct
-
-    std::cout << "\nUn programa de Mario Hdez (~^u^)~" << std::endl;
+    //std::cout << "====== Empleados ======" << std::endl;
+    //for (int i = 0; i < 2; i++) {
+    //    printEmployeeData(employees[i]);
+    //    if (i < 1) std::cout << std::endl;
+    //}
+    //std::cout << "=======================" << std::endl;
 
     system("pause");
+    return 0;
 }
+
 
