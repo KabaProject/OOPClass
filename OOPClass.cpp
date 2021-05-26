@@ -1,46 +1,35 @@
-#include <iostream>
+#include<iostream>
 
-class Product {
+class Example {
 	private:
-		int id;
-		float price;
+		int data;
+		
+		void read();
+		void write();
 
 	public:
-		void displayData();
-		void setData(); 
-		void updatePrice(float); // You can short the parameters
+		void show();
 };
 
-void Product::displayData() {
-	std::cout << "\nCode: " << this->id;
-	std::cout << "\nPrice: $" << this->price << std::endl;
-}
-void Product::setData() {
-	std::cout << "Enter ID: ";
-	std::cin >> this->id;
-	std::cout << "Enter Price: ";
-	std::cin >> this->price;
+void Example::read() {
+	std::cout << "Enter the data: ";
+	std::cin >> this->data;
 }
 
-void Product::updatePrice(float price) {
-	this->price = price;
+void Example::write() {
+	std::cout << this->data;
+}
+
+void Example::show() {
+	this->read();
+	this->write();
 }
 
 int main() {
 
-	Product product;
-	float price;
+	Example example;
 
-	product.setData();
-	product.displayData();
-
-	std::cout << "Enter new price: $";
-	std::cin >> price;
-
-	product.updatePrice(price);
-	product.displayData();
-
-	std::system("pause");
+	example.show();
 
 	return 0;
 }
