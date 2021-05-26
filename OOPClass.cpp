@@ -1,35 +1,57 @@
 #include<iostream>
 
-class Example {
+class Bigger {
 	private:
-		int data;
-		
-		void read();
-		void write();
-
+		int n1, n2;
+		int greater();
 	public:
+		void ask();
 		void show();
 };
 
-void Example::read() {
-	std::cout << "Enter the data: ";
-	std::cin >> this->data;
+// Ask the data from the user
+void Bigger::ask() {
+	std::cout << "Enter 1st num: ";
+	std::cin >> this->n1;
+	std::cout << "Enter 2nd num: ";
+	std::cin >> this->n2;
+	std::cout << "\n";
 }
 
-void Example::write() {
-	std::cout << this->data;
+// Return the greater number or the sum if they're equals
+int Bigger::greater() {
+	if (this->n1 == this->n2) {
+		return this->n1 + this->n2;
+	}
+	else if(this->n1 > this->n2){
+		return this->n1;
+	}
+
+	return this->n2;
 }
 
-void Example::show() {
-	this->read();
-	this->write();
+// Show whose the greater number or if they're equals
+void Bigger::show() {
+
+	int greater = this->greater();                      
+
+	if (this->n1 + this->n2 == greater) {
+		std::cout << this->n1 << ", " << this->n2 << " son iguales\n\n";
+	}
+	else {
+		std::cout << this->n1 << ", " << this->n2 << " el mayor es " << greater << "\n\n";
+	}
 }
 
-int main() {
+int main(){
 
-	Example example;
+	Bigger bigger;
 
-	example.show();
+	// Ask & Display the greater number
+	bigger.ask();
+	bigger.show();
+
+	system("pause");
 
 	return 0;
 }
