@@ -1,127 +1,38 @@
 #include<iostream>
-#include<iomanip>
 
-const int SIZE = 50;
-
-class Product {
+class Example {
 	private:
-		int codes[SIZE];
-		float prices[SIZE];
-		int count = 0;
-
+		int num;
 	public:
-		void
-			cnt(),
-			show(),
-			add(int, float),
-			showByCode();
-		float
-			sum();
+		static int count;
+		void setData(int);
+		void showCount();
+		void showNum();
 };
 
-void Product::cnt() { std::cout << this->count << " articulo(s)\n"; };
-void Product::add(int code, float price) {
-	this->codes[this->count] = code;
-	this->prices[this->count] = price;
+int Example::count;
+
+void Example::setData(int num) {
+	this->num = num;
 	this->count++;
-
-	std::cout << "¡Articulo añadido!\n";
 }
-void Product::show() {
-	std::cout << std::setw(10) << "Codigos" << std::setw(10) << "Precios\n";
-	for (int i = 0; i < this->count; i++) {
-		std::cout << std::setw(10) << this->codes[i] << std::setw(10) << std::setprecision(2) << this->prices[i] << "\n";
-	}
-}
-
-void Product::showByCode() {
-	int code, idx = -1;
-
-	std::cout << "Codigo: #";
-	std::cin >> code;
-
-	for (int i = 0; i < this->count; i++) {
-		if (this->codes[i] == code) {
-			idx = i;
-		}
-	}
-
-	if (idx == -1) {
-		std::cout << "Articulo no encontrado\n";
-	}
-	else {
-		std::cout << "Articulo #" << this->codes[idx] << " tiene un costo de $" << this->prices[idx] << "\n";
-	}
-}
-
-float Product::sum() {
-	float total = 0;
-
-	if (this->count == 0) {
-		return 0;
-	}
-
-	for (int i = 0; i < this->count; i++) {
-		total = total + this->prices[i];
-	}
-
-	return total;
-}
+void Example::showCount() { std::cout << "Cuenta: " << this->count << "\n"; }
+void Example::showNum() { std::cout << "Numero: " << this->num << "\n"; }
 
 int main() {
+	Example a, b, c;
 
-	Product product;
-	int opt;
-	char command;
+	a.setData(100);
+	a.showNum();
+	std::cout << Example::count << "\n";
 
-	do {
-		std::cout << "TIENDA DE AUTOSERVICIO \"MANDADITO\"\n" << "\n"
-			<< "\t1) Ver Numero de Articulos\n"
-			<< "\t2) Mostrar Articulos\n"
-			<< "\t3) Añadir Articulo\n"
-			<< "\t4) Ver Costo Total\n"
-			<< "\t5) Buscar Articulo\n"
-			<< "\t6) Salir\n"
-			<< "\n"
-			<< "Ingrese una opcion: ";
-		std::cin >> opt;
+	b.setData(300);
+	b.showNum();
+	std::cout << Example::count << "\n";
 
-		system("cls");
-
-		switch (opt) {
-			case 1:
-				product.cnt();
-				break;
-			case 2:
-				product.show();
-				break;
-			case 3:
-				int code;
-				float price;
-				std::cout << "Ingresa el Codigo: #";
-				std::cin >> code;
-				std::cout << "Ingrese el Precio: $";
-				std::cin >> price;
-				product.add(code, price);
-				break;
-			case 4:
-				std::cout << "Costo total: $" << product.sum() << "\n";
-				break;
-			case 5:
-				product.showByCode();
-				break;
-		}
-
-		std::cout << "¿Quieres hacer otra operación? [Y/N]";
-		std::cin >> command;
-		system("cls");
-
-	} while (opt != 6 || command == 'n' || command == 'N');
-
-
-	std::cout << "\nGRACIAS POR SU SESIÓN, ¡HASTA LUEGO!\n";
-
-	system("pause");
+	c.setData(500);
+	c.showNum();
+	std::cout << Example::count << "\n";
 
 	return 0;
 }
