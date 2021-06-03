@@ -1,15 +1,53 @@
 #include<iostream>
 
-class Test{
+class Integer {
 	private:
-		int code;
-		static int count;
+		int m, n;
 	public:
-		void setCode();
-		void showCode();
-		void showCount();
+		Integer();
+		Integer(int, int);
+		Integer(int);
+		void show();
 };
 
-void Test::setCode() { this->code = this->count };
-void Test::showCode() { std::cout << "Codigo: " << this->code << "\n"; };
-void Test::showCount() { std::cout << "Cuenta: " << this->count << "\n"; };
+Integer::Integer() {
+	this->m = 0;
+	this->n = 0;
+}
+
+Integer::Integer(int f) {
+	this->m = f;
+	this->n = 0;
+}
+
+Integer::Integer(int m, int n) {
+	this->m = m;
+	this->n = n;
+}
+
+void Integer::show() {
+	std::cout << "\nm: " << this->m << "\nn: " << this->n << "\n";
+}
+
+int main() {
+
+	Integer
+		i1(0, 100),
+		i2 = Integer(100, 75),
+		i3,
+		i4(10);
+
+	std::cout << "Objeto 1";
+	i1.show();
+
+	std::cout << "\nObjeto 2";
+	i2.show();
+
+	std::cout << "\nObjeto 3";
+	i3.show(); 
+
+	std::cout << "\nObjeto 4";
+	i4.show();
+
+	return 0;
+}
