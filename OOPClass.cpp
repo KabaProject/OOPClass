@@ -1,53 +1,23 @@
 #include<iostream>
 
-class Integer {
+class Point {
 	private:
-		int m, n;
+		float x, y;
 	public:
-		Integer();
-		Integer(int, int);
-		Integer(int);
-		void show();
+		Point() :x(0), y(0) {}
+		Point(float x) : x(x), y(0) {}
+		Point(float x, float y) : x(x), y(y) {}
 };
-
-Integer::Integer() {
-	this->m = 0;
-	this->n = 0;
-}
-
-Integer::Integer(int f) {
-	this->m = f;
-	this->n = 0;
-}
-
-Integer::Integer(int m, int n) {
-	this->m = m;
-	this->n = n;
-}
-
-void Integer::show() {
-	std::cout << "\nm: " << this->m << "\nn: " << this->n << "\n";
-}
 
 int main() {
 
-	Integer
-		i1(0, 100),
-		i2 = Integer(100, 75),
-		i3,
-		i4(10);
+	Point triangle[3] = {
+		Point(),
+		Point(10),
+		Point(5, 10)
+	};                  
 
-	std::cout << "Objeto 1";
-	i1.show();
 
-	std::cout << "\nObjeto 2";
-	i2.show();
-
-	std::cout << "\nObjeto 3";
-	i3.show(); 
-
-	std::cout << "\nObjeto 4";
-	i4.show();
 
 	return 0;
 }
