@@ -1,38 +1,15 @@
 #include<iostream>
 
-class Example {
+class Test{
 	private:
-		int num;
-	public:
+		int code;
 		static int count;
-		void setData(int);
+	public:
+		void setCode();
+		void showCode();
 		void showCount();
-		void showNum();
 };
 
-int Example::count;
-
-void Example::setData(int num) {
-	this->num = num;
-	this->count++;
-}
-void Example::showCount() { std::cout << "Cuenta: " << this->count << "\n"; }
-void Example::showNum() { std::cout << "Numero: " << this->num << "\n"; }
-
-int main() {
-	Example a, b, c;
-
-	a.setData(100);
-	a.showNum();
-	std::cout << Example::count << "\n";
-
-	b.setData(300);
-	b.showNum();
-	std::cout << Example::count << "\n";
-
-	c.setData(500);
-	c.showNum();
-	std::cout << Example::count << "\n";
-
-	return 0;
-}
+void Test::setCode() { this->code = this->count };
+void Test::showCode() { std::cout << "Codigo: " << this->code << "\n"; };
+void Test::showCount() { std::cout << "Cuenta: " << this->count << "\n"; };
