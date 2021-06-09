@@ -1,53 +1,56 @@
 #include<iostream>
 
-class Fraction {
+class B {
 	private:
-		int num, den;
+		int a;
 	public:
-		Fraction() : num(0), den(0) {};
-		Fraction(int value) : num(value), den(value) {};
-		Fraction(int num, int den) : num(num), den(den) {};
-		void show();
-		friend Fraction sum(Fraction, Fraction);
+		int b;
+		void setData(int, int);
+		int getA();
 };
- 
-void Fraction::show() {
-	std::cout << "La fraccion es: " << this->num << "/" << this->den << "\n";
+
+void B::setData(int a, int b) {
+	this->a = a;
+	this->b = b;
 }
 
-Fraction sum(Fraction a, Fraction b) {
-	int num = a.num * b.den + b.num * a.den;
-	int den = a.den * b.den;
+int B::getA() {
+	return this->a;
+}
 
-	return Fraction(num, den);
+class D :public B {
+	private:
+		int c;
+	public:
+		void mul();
+		void show();
 };
 
+void D::mul() {
+	this->c = b * this->getA();
+}
+
+void D::show() {
+	std::cout << "A es " << this->getA() << "\nB es " << this->b << "\nC es " <<  this->c << "\n";
+}
+
 int main() {
+	D d;
+	int a, b;
 
-	Fraction fract_a, fract_b, fract_c;
-	int num, den;
+	// Get input
+	std::cout << "Ingresar datos: \n";
+	std::cout << "Valor A: ";
+	std::cin >> a;
+	std::cout << "Valor B: ";
+	std::cin >> b;
 
-	// Get the input
-	std::cout << "Ingrese 1era Fraccion:\n";
-	std::cout << "Numerador: ";
-	std::cin >> num;
-	std::cout << "Denominador: ";
-	std::cin >> den;
+	d.setData(a, b);
 
-	fract_a = Fraction(num, den);
-
-	std::cout << "\nIngrese 2da Fraccion:\n";
-	std::cout << "Numerador: ";
-	std::cin >> num;
-	std::cout << "Denominador: ";
-	std::cin >> den;
-
-	fract_b = Fraction(num, den);
-
-	fract_c = sum(fract_a, fract_b);
-	fract_c.show();
-
-	system("pause");
+	d.mul();
+	d.show();
 
 	return 0;
+
+
 }
