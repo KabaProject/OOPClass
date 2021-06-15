@@ -5,20 +5,20 @@ class B {
 		int a;
 	public:
 		int b;
-		void setData(int, int);
+		void setData();
 		int getA();
 };
 
-void B::setData(int a, int b) {
-	this->a = a;
-	this->b = b;
+void B::setData() {
+	this->a = 15;
+	this->b = 20;
 }
 
 int B::getA() {
 	return this->a;
 }
 
-class D :public B {
+class D :private B {
 	private:
 		int c;
 	public:
@@ -27,6 +27,7 @@ class D :public B {
 };
 
 void D::mul() {
+	this->setData();
 	this->c = b * this->getA();
 }
 
@@ -44,8 +45,6 @@ int main() {
 	std::cin >> a;
 	std::cout << "Valor B: ";
 	std::cin >> b;
-
-	d.setData(a, b);
 
 	d.mul();
 	d.show();
